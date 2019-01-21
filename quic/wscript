@@ -1,0 +1,31 @@
+## -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+def build(bld):
+    myquic= bld.create_ns3_module('quic', ['core','network','internet'])
+    myquic.env.append_value('CXXFLAGS', '-std=c++14')
+    myquic.env.append_value("CXXFLAGS", "-I/home/zsy/posix_quic-master/libquic/")
+    myquic.env.append_value("LINKFLAGS", ["-L/home/zsy/posix_quic-master/build/libquic/","-L/home/zsy/posix_quic-master/build/libquic/third_party/boringssl/src/ssl","-L/home/zsy/posix_quic-master/build/libquic/third_party/boringssl/src/crypto"]),
+    myquic.env.append_value("LIB", ["quic","crypto","ssl"])
+    myquic.source = [
+    'model/my_quic_header.cc',
+    'model/my_quic_framer.cc',
+    'model/ns_quic_time.cc',
+    'model/ns_quic_sender.cc',
+    'model/ns_quic_receiver.cc',
+    'model/ns_quic_trace.cc',
+    'model/quic_framer_visitor.cc',
+	]
+    headers = bld(features='ns3header')
+    headers.module = 'quic'
+    headers.source = [
+    'model/my_quic_header.h',
+    'model/my_quic_framer.h',
+    'model/ns_quic_time.h',
+    'model/ns_quic_sender.h',
+    'model/ns_quic_receiver.h',
+    'model/ns_quic_trace.h',
+    'model/quic_framer_visitor.h',
+	]
+    myquic.env.append_value("CFLAGS","-fPIC")
+#CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/home/zsy/posix_quic-master/libquic/  
+#export CPLUS_INCLUDE_PATH
