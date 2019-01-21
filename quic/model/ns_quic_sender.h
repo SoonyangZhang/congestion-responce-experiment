@@ -4,7 +4,6 @@
 #include "net/quic/core/quic_connection_stats.h"
 #include "net/quic/core/quic_versions.h"
 #include "net/quic/core/quic_pending_retransmission.h"
-#include "my_quic_framer.h"
 #include "ns_quic_time.h"
 #include "quic_framer_visitor.h"
 #include <string>
@@ -18,7 +17,7 @@ namespace net{
 class NsQuicSender:public AbstractQuicFramerVisitor
 ,public ns3::Application{
 public:
-	NsQuicSender(Perspective pespective);
+	NsQuicSender();
 	~NsQuicSender();
 	void Bind(uint16_t port);
 	ns3::InetSocketAddress GetLocalAddress();

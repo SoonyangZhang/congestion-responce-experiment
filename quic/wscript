@@ -2,7 +2,8 @@
 
 def build(bld):
     myquic= bld.create_ns3_module('quic', ['core','network','internet'])
-    myquic.env.append_value('CXXFLAGS', '-std=c++14')
+    myquic.cxxflags = ['-std=c++14']
+   #ld.env.append_value('CXXFLAGS', '-std=c++14')
     myquic.env.append_value("CXXFLAGS", "-I/home/zsy/posix_quic-master/libquic/")
     myquic.env.append_value("LINKFLAGS", ["-L/home/zsy/posix_quic-master/build/libquic/","-L/home/zsy/posix_quic-master/build/libquic/third_party/boringssl/src/ssl","-L/home/zsy/posix_quic-master/build/libquic/third_party/boringssl/src/crypto"]),
     myquic.env.append_value("LIB", ["quic","crypto","ssl"])

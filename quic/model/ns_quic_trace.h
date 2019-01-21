@@ -11,7 +11,7 @@ public:
 	~NsQuicTrace();
 	void OpenSenderRateFile(std::string filename);
 	void OpenReceiverRateFile(std::string filename);
-	void OpenLossRateFile(std::string filename);
+	void OpenLossFile(std::string filename);
 	void OpenOwdFile(std::string filename);
 	void OnSenderRate(uint32_t kbps);
 	void OnReceiverRate(uint32_t kbps);

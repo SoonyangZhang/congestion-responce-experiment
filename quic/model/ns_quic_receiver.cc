@@ -7,6 +7,7 @@
 #include "ns3/log.h"
 using namespace ns3;
 namespace net{
+NS_LOG_COMPONENT_DEFINE("NsQuicReceiver");
 const uint8_t kPublicHeaderSequenceNumberShift = 4;
 const uint64_t mMinReceivedBeforeAckDecimation = 100;
 
@@ -115,6 +116,9 @@ void NsQuicReceiver::StopApplication(){
 	running_=false;
 	if(!heart_timer_.IsExpired()){
 		heart_timer_.Cancel();
+	}
+	if(!trace_loss_cb_.IsNull()){
+		trace_loss_cb_(base_seq_,0);
 	}
 }
 void NsQuicReceiver::RecvPacket(ns3::Ptr<ns3::Socket> socket){

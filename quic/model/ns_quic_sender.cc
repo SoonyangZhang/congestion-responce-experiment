@@ -1,5 +1,6 @@
 #include "ns_quic_sender.h"
 #include "my_quic_header.h"
+#include "my_quic_framer.h"
 #include "net/quic/core/quic_data_reader.h"
 #include "net/quic/core/quic_data_writer.h"
 #include "net/quic/core/frames/quic_stream_frame.h"
@@ -13,9 +14,9 @@ NS_LOG_COMPONENT_DEFINE("NsQuicSender");
 const uint8_t kPublicHeaderSequenceNumberShift = 4;
 const uint32_t kMaxBufferSize=1500;
 const uint32_t kPaddingSize=1000;
-NsQuicSender::NsQuicSender(Perspective pespective)
-:pespective_(pespective)
-,sent_packet_manager_(pespective,&clock_,&stats_,kBBR,kNack)
+NsQuicSender::NsQuicSender()
+:pespective_(Perspective::IS_CLIENT)
+,sent_packet_manager_(pespective_,&clock_,&stats_,kBBR,kNack)
 ,time_of_last_received_packet_(clock_.ApproximateNow())
 ,last_rate_ts_(QuicTime::Zero())
 {

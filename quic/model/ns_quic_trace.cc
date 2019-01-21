@@ -19,7 +19,7 @@ void NsQuicTrace::OpenReceiverRateFile(std::string filename){
 			+ filename+"-receiver-rate.txt";
 	m_receiver_rate.open(path.c_str(), std::fstream::out);
 }
-void NsQuicTrace::OpenLossRateFile(std::string filename){
+void NsQuicTrace::OpenLossFile(std::string filename){
 	char buf[FILENAME_MAX];
 	memset(buf,0,FILENAME_MAX);
 	std::string path = std::string (getcwd(buf, FILENAME_MAX)) + "/traces/"
