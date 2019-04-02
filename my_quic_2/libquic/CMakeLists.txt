@@ -1,0 +1,188 @@
+include_directories(${CMAKE_SOURCE_DIR}/libquic)
+
+#include_directories(third_party/boringssl/src/include)
+#add_subdirectory(third_party/boringssl/src)
+set(quic_FILES
+net/third_party/quic/core/quic_time.cc
+net/third_party/quic/core/quic_bandwidth.cc
+net/third_party/quic/core/quic_types.cc
+net/third_party/quic/platform/api/quic_clock.cc
+net/base/parse_number.cc
+net/base/address_family.cc
+net/base/ip_address.cc
+net/base/ip_endpoint.cc
+net/base/sockaddr_storage.cc
+net/third_party/quic/platform/impl/quic_socket_address_impl.cc
+net/third_party/quic/core/frames/quic_ack_frame.cc
+net/third_party/quic/core/frames/quic_blocked_frame.cc
+net/third_party/quic/core/frames/quic_connection_close_frame.cc
+net/third_party/quic/core/frames/quic_frame.cc
+net/third_party/quic/core/frames/quic_goaway_frame.cc
+net/third_party/quic/core/frames/quic_padding_frame.cc
+net/third_party/quic/core/frames/quic_path_challenge_frame.cc
+net/third_party/quic/core/frames/quic_path_response_frame.cc
+net/third_party/quic/core/frames/quic_ping_frame.cc
+net/third_party/quic/core/frames/quic_rst_stream_frame.cc
+net/third_party/quic/core/frames/quic_stop_sending_frame.cc
+net/third_party/quic/core/frames/quic_stop_waiting_frame.cc
+net/third_party/quic/core/frames/quic_stream_frame.cc
+net/third_party/quic/core/frames/quic_window_update_frame.cc
+net/third_party/quic/core/frames/quic_new_connection_id_frame.cc
+net/third_party/quic/core/frames/quic_stream_id_blocked_frame.cc
+net/third_party/quic/core/frames/quic_max_stream_id_frame.cc
+net/third_party/quic/core/frames/quic_message_frame.cc
+net/third_party/quic/core/frames/quic_new_token_frame.cc
+net/third_party/quic/core/frames/quic_crypto_frame.cc
+net/third_party/quic/core/frames/quic_retire_connection_id_frame.cc
+net/third_party/quic/core/frames/quic_application_close_frame.cc
+
+net/third_party/quic/core/congestion_control/bandwidth_sampler.cc
+net/third_party/quic/core/congestion_control/bbr_sender.cc
+net/third_party/quic/core/congestion_control/cubic_bytes.cc
+net/third_party/quic/core/congestion_control/general_loss_algorithm.cc
+net/third_party/quic/core/congestion_control/hybrid_slow_start.cc
+net/third_party/quic/core/congestion_control/pacing_sender.cc
+net/third_party/quic/core/congestion_control/prr_sender.cc
+net/third_party/quic/core/congestion_control/rtt_stats.cc
+net/third_party/quic/core/congestion_control/send_algorithm_interface.cc
+net/third_party/quic/core/congestion_control/tcp_cubic_sender_bytes.cc
+
+net/third_party/quic/core/quic_buffer_allocator.cc
+net/third_party/quic/core/quic_buffered_packet_store.cc
+net/third_party/quic/core/quic_packets.cc
+net/third_party/quic/core/quic_connection_stats.cc
+net/third_party/quic/core/quic_unacked_packet_map.cc
+net/third_party/quic/core/quic_received_packet_manager.cc
+net/third_party/quic/core/quic_sent_packet_manager.cc
+net/third_party/quic/core/quic_connection_id.cc
+net/third_party/quic/core/quic_packet_reader.cc
+net/third_party/quic/core/quic_data_writer.cc
+net/third_party/quic/core/quic_data_reader.cc
+net/third_party/quic/core/quic_packet_writer_wrapper.cc
+net/third_party/quic/core/quic_utils.cc
+#net/third_party/quic/core/crypto/null_decrypter.cc
+#net/third_party/quic/core/crypto/null_encrypter.cc
+
+net/third_party/quic/core/quic_tag.cc
+net/third_party/quic/core/quic_versions.cc
+
+net/third_party/quic/platform/impl/quic_flags_impl.cc
+net/third_party/quic/platform/api/quic_socket_address.cc
+
+
+net/my_quic_framer.cc
+net/my_quic_random.cc
+net/my_bbr_sender.cc
+net/my_pacing_sender.cc
+net/my_quic_header.cc
+net/my_controller_interface.cc
+#net/third_party/quic/core/crypto/crypto_handshake_message.cc
+net/third_party/quic/platform/api/quic_ip_address.cc
+net/third_party/quic/platform/impl/quic_ip_address_impl.cc
+net/third_party/quic/core/quic_socket_address_coder.cc
+
+#net/third_party/quic/core/crypto/aead_base_decrypter.cc
+#net/third_party/quic/core/crypto/aead_base_encrypter.cc
+#net/third_party/quic/core/crypto/aes_128_gcm_12_decrypter.cc
+#net/third_party/quic/core/crypto/aes_128_gcm_12_encrypter.cc
+#net/third_party/quic/core/crypto/aes_128_gcm_decrypter.cc
+#net/third_party/quic/core/crypto/aes_128_gcm_encrypter.cc
+#net/third_party/quic/core/crypto/aes_256_gcm_decrypter.cc
+#net/third_party/quic/core/crypto/aes_256_gcm_encrypter.cc
+#net/third_party/quic/core/crypto/cert_compressor.cc
+#net/third_party/quic/core/crypto/chacha20_poly1305_decrypter.cc
+#net/third_party/quic/core/crypto/chacha20_poly1305_encrypter.cc
+#net/third_party/quic/core/crypto/chacha20_poly1305_tls_decrypter.cc
+#net/third_party/quic/core/crypto/chacha20_poly1305_tls_encrypter.cc
+#net/third_party/quic/core/crypto/channel_id.cc
+#net/third_party/quic/core/crypto/common_cert_set.cc
+#net/third_party/quic/core/crypto/common_cert_set_2.c
+#net/third_party/quic/core/crypto/common_cert_set_2a.inc
+#net/third_party/quic/core/crypto/common_cert_set_2b.inc
+#net/third_party/quic/core/crypto/common_cert_set_3.c
+#net/third_party/quic/core/crypto/common_cert_set_3a.inc
+#net/third_party/quic/core/crypto/common_cert_set_3b.inc
+#net/third_party/quic/core/crypto/crypto_framer.cc
+#net/third_party/quic/core/crypto/crypto_handshake.cc
+#net/third_party/quic/core/crypto/crypto_handshake_message.cc
+#net/third_party/quic/core/crypto/crypto_secret_boxer.cc
+#net/third_party/quic/core/crypto/crypto_utils.cc
+#net/third_party/quic/core/crypto/curve25519_key_exchange.cc
+#net/third_party/quic/core/crypto/null_decrypter.cc
+#net/third_party/quic/core/crypto/null_encrypter.cc
+#net/third_party/quic/core/crypto/p256_key_exchange.cc
+#net/third_party/quic/core/crypto/proof_source.cc
+#net/third_party/quic/core/crypto/quic_compressed_certs_cache.cc
+#net/third_party/quic/core/crypto/quic_crypto_client_config.cc
+#net/third_party/quic/core/crypto/quic_crypto_proof.cc
+#net/third_party/quic/core/crypto/quic_crypto_server_config.cc
+#net/third_party/quic/core/crypto/quic_decrypter.cc
+#net/third_party/quic/core/crypto/quic_encrypter.cc
+#net/third_party/quic/core/crypto/quic_random.cc
+)
+ set(BASE_COMMON
+         base/logging.cc
+         base/memory/ref_counted.cc
+         base/pickle.cc
+         base/strings/string_number_conversions.cc
+         base/strings/string_piece.cc
+         base/strings/string_split.cc
+         base/strings/string_util.cc
+         base/strings/stringprintf.cc
+         base/strings/utf_offset_string_conversions.cc
+         base/strings/utf_string_conversion_utils.cc
+         base/strings/utf_string_conversions.cc
+         base/strings/string_util_constants.cc
+         base/synchronization/lock.cc
+         base/trace_event/memory_usage_estimator.cc
+         base/lazy_instance_helpers.cc
+         base/callback_internal.cc
+         base/time/time.cc
+         base/time/time_override.cc
+         base/rand_util.cc
+         base/threading/thread_local_storage.cc
+         base/at_exit.cc
+         base/third_party/icu/icu_utf.cc
+         base/third_party/dmg_fp/dtoa.cc
+         base/third_party/dmg_fp/g_fmt.cc
+         base/third_party/nspr/prtime.cc
+ )
+
+ set(
+         BASE_PLATFORM_POSIX
+         base/time/time_exploded_posix.cc
+         base/time/time_conversion_posix.cc
+         base/synchronization/lock_impl_posix.cc
+         base/posix/safe_strerror.cc
+         base/rand_util_posix.cc
+         base/threading/thread_local_storage_posix.cc
+         net/base/net_errors_posix.cc
+         base/strings/string16.cc
+
+ )
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+     set(BASE_PLATFORM
+             ${BASE_PLATFORM_POSIX}
+             base/time/time_now_posix.cc
+             )
+
+endif()
+ set(
+         URL_SOURCES
+         url/third_party/mozilla/url_parse.cc
+         url/gurl.cc
+         url/origin.cc
+         url/scheme_host_port.cc
+         url/url_canon.cc
+         url/url_canon_host.cc
+         url/url_canon_internal.cc
+         url/url_canon_ip.cc
+         url/url_canon_stdstring.cc
+         url/url_constants.cc
+         url/url_util.cc
+         url/url_canon_stdurl.cc
+         url/url_canon_etc.cc
+         url/url_canon_relative.cc
+         url/url_canon_query.cc
+ )
+add_library(quic STATIC ${quic_FILES} ${BASE_COMMON} ${BASE_PLATFORM} ${URL_SOURCES} )
